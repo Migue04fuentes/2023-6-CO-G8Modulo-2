@@ -6,11 +6,15 @@ from game.utils.constants import SPACESHIP, SCREEN_WIDTH
 
 class Spaceship(Sprite):
     
-    SHIP_WIDTH = 40
-    SHIP_HEIGHT = 60
+    SHIP_WIDTH = 60
+    SHIP_HEIGHT = 80
     X_POS = (SCREEN_WIDTH // 2) - SHIP_WIDTH
     Y_POS = 520
     SHIP_SPEED = 10
+    LIMIT_UP = 0
+    LIMIT_DOWN = 520
+    LIMIT_LEFT = -30
+    LIMIT_RIGHT = 1090
     
     def __init__(self):
         self.image  =  SPACESHIP
@@ -18,7 +22,7 @@ class Spaceship(Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.X_POS
         self.rect.y = self.Y_POS
-    
+
     def update(self, user_input):
         if user_input[pygame.K_LEFT]:
             self.move_left()
@@ -33,13 +37,21 @@ class Spaceship(Sprite):
         screen.blit(self.image, (self.rect.x, self.rect.y))
         
     def move_left(self):
-        self.rect.x -= self.SHIP_SPEED
+        if self.rect.x == self.LIMIT_LEFT:
+            self.rect.x = 1090
+        else:
+            self.rect.x -= self.SHIP_SPEED
     
     def move_right(self):
-        self.rect.x += self.SHIP_SPEED
+        if self.rect.x == self.LIMIT_RIGHT:
+            self.rect.x = -30
+        else: 
+            self.rect.x += self.SHIP_SPEED
     
     def move_up(self):
-        self.rect.y -= self.SHIP_SPEED
+        if self.rect.y != self.LIMIT_UP:
+            self.rect.y -= self.SHIP_SPEED
     
     def move_down(self):
-        self.rect.y += self.SHIP_SPEED
+        if self.rect.y != self.LIMIT_DOWN:
+            self.rect.y += self.SHIP_SPEED
