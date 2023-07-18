@@ -16,9 +16,6 @@ class BulletManager():
                 game.playing = False
                 pygame.time.delay(2000)
                 break
-            if bullet.rect.colliderect(game.player.rect) and bullet.owner != 'enemy':
-               self.enemy_bullets.remove(bullet)
-
 
     def draw(self, screen):
         for bullet in self.enemy_bullets:
