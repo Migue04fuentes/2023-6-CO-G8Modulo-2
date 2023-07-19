@@ -24,9 +24,6 @@ class Bullet(Sprite):
             if self.rect.y <= 0:
                 bullets.remove(self)
                 
-      
-            
-
     
     def draw(self,screen):
         screen.blit(self.image,(self.rect.x,self.rect.y))
