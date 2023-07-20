@@ -46,6 +46,16 @@ SCORE = pygame.image.load(os.path.join(IMG_DIR,('Other/ship_score.png')))
 SCORE_DEATH = pygame.image.load(os.path.join(IMG_DIR,('Other/death_score_img.png')))
 SCORE_TIME = pygame.image.load(os.path.join(IMG_DIR,('Other/time.png')))
 RESET = pygame.image.load(os.path.join(IMG_DIR,('Other/reset1.png')))
+BUY = pygame.image.load(os.path.join(IMG_DIR,('Other/buy.png')))
+
+ICON_PLAY = pygame.image.load(os.path.join(IMG_DIR,('Other/icon_play.png')))
+ICON_PAUSE = pygame.image.load(os.path.join(IMG_DIR,('Other/icon_pausa.png')))
+ICON_MUSIC = pygame.image.load(os.path.join(IMG_DIR,('Other/icon_music.png')))
+ICON_MUSIC_MUTE = pygame.image.load(os.path.join(IMG_DIR,('Other/icon_music_mute.png')))
+ICON_RESET = pygame.image.load(os.path.join(IMG_DIR,('Other/icon_reset.png')))
+ICON_EXIT = pygame.image.load(os.path.join(IMG_DIR,('Other/icon_exit.png')))
+IMG_PAUSE = pygame.image.load(os.path.join(IMG_DIR,('Other/pause_big.png')))
+
 
 #Game sound
 # SOUND_PLAY = pygame.mixer.music.load(os.path.join(SOUND_DIR, "Sound/play.mp3"))

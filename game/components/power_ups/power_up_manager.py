@@ -15,6 +15,7 @@ class PowerUpManager:
         self.duration = random.randint(3,5)
         self.when_appears = random.randint(1000,10000)
         self.enemy = EnemyManager()
+        
     def update(self,game):
         current_time = pygame.time.get_ticks()
      

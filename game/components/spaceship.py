@@ -41,13 +41,27 @@ class Spaceship(Sprite):
         
         # Volume music background
         if user_input[pygame.K_m]:
-            if pygame.mixer.music.get_volume() ==0.0:
-                pygame.mixer.music.set_volume(0.5)
-            else:
-                pygame.mixer.music.set_volume(0.0)
+            game.mute_music()
+            # if pygame.mixer.music.get_volume() ==0.0:
+            #     pygame.mixer.music.set_volume(0.5)
+            # else:
+            #     pygame.mixer.music.set_volume(0.0)
         
         if user_input[pygame.K_x]:
             self.shoot(game.bullet_manager)
+            
+        if user_input[pygame.K_p]:
+            game.paused()
+            
+        if user_input[pygame.K_r]:
+            game.playing = False
+            pygame.mixer.music.stop()
+            game.reset_game()
+            game.run
+            
+        if user_input[pygame.K_BACKSPACE] or user_input[pygame.K_ESCAPE]:
+            pygame.display.quit()
+            pygame.quit()
                 
             
     def draw(self, screen):
