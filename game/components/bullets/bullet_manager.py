@@ -1,11 +1,12 @@
 import pygame
 
+from game.utils.constants import SHOT_SHIP
 
-class BulletManager():
-    
+
+class bulletManager():
     def __init__(self):
-        self.bullets=[]
-        self.enemy_bullets=[]
+        self.bullets = []
+        self.enemy_bullets = []
     
     def update(self,game):
         for bullet in self.enemy_bullets:
@@ -14,30 +15,31 @@ class BulletManager():
                 self.enemy_bullets.remove(bullet)
                 game.playing = False
                 game.death_score += 1
-                pygame.time.delay(2000)
+                pygame.time.delay(1000) 
                 break
-            
+    
         for bullet in self.bullets:
             bullet.update(self.bullets)
             for enemy in game.enemy_manager.enemies:
                 if bullet.rect.colliderect(enemy.rect) and bullet.owner == 'player':
                     game.enemy_manager.enemies.remove(enemy)
                     self.bullets.remove(bullet)
-                    game.score += 1
-                    print('shot efecty')
+                    game.score +=1
                     
-
-    def draw(self, screen):
+                     
+    
+    def draw(self,screen):
         for bullet in self.enemy_bullets:
             bullet.draw(screen)
-        
+            
         for bullet in self.bullets:
             bullet.draw(screen)
-
-    def add_bullet(self,bullet):
-        if bullet.owner == 'enemy' and len(self.enemy_bullets) <1:
+    
+    def add_bullet(self, bullet):
+        if bullet.owner == 'enemy' and len(self.enemy_bullets)<1:
             self.enemy_bullets.append(bullet)
             
         if bullet.owner == 'player' and len(self.bullets)<3:
             self.bullets.append(bullet)
-            
+            SHOT_SHIP.set_volume(0.5)
+            SHOT_SHIP.play()
