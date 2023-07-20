@@ -31,7 +31,7 @@ class Game():
         self.score = 0
         self.time = 0
         self.num_heart = 3
-        self.coins = 10
+        self.coins = 5
         self.pause = False
         self.menu = Menu('Press Any Key To Start...', self.screen)
 
@@ -160,7 +160,7 @@ class Game():
     def coins_buy(self,screen):
         if self.coins >= 5:
             num_heart = self.coins//5
-            self.menu.message_menu(screen,f'Buy a heart for 10 coins',390,355,32,'Black')
+            self.menu.message_menu(screen,f'Buy a heart for 5 coins',390,355,32,'Black')
             self.menu.icons_menu(screen,HEART,480,400,35,35)
             self.menu.message_menu(screen,num_heart,525,403,32,'Black')
             click_buy = self.menu.icons_menu(screen,BUY,550,400,80,40)

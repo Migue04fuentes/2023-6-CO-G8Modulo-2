@@ -39,7 +39,7 @@ class PowerUpManager:
                     self.power_ups.remove(power_up)
                 if power_up.type == 'clean':
                     for enemy in game.enemy_manager.enemies:
-                        game.enemy_manager.enemies.remove(enemy)
+                        game.enemy_manager.enemies = []
                         game.score +=1
                     self.power_ups.remove(power_up)
                 SOUND_POWER.play()
