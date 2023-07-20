@@ -48,7 +48,7 @@ class Menu():
     def message_menu(self,screen,message,pos_x,pos_y,font_size,color):
         color_text = self.color.get(color)
         font_message = pygame.font.Font(FONT_STYLE,font_size)
-        text_message  = font_message.render(message, True, color_text)
+        text_message  = font_message.render(str(message), True, color_text)
         screen.blit(text_message,(pos_x,pos_y))
         
     def icons_menu(self,screen,images,pos_x,pos_y,width,height):

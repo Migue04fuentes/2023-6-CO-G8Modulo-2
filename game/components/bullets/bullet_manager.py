@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import SHOT_SHIP
+from game.utils.constants import SHIELD_TYPE, SHOT_SHIP
 
 
 class bulletManager():
@@ -13,11 +13,12 @@ class bulletManager():
             bullet.update(self.enemy_bullets)
             if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
                 self.enemy_bullets.remove(bullet)
-                game.playing = False
-                game.death_score += 1
-                pygame.time.delay(1000) 
-                break
-    
+                if game.player.power_up_type != SHIELD_TYPE:
+                    game.playing = False
+                    game.death_score += 1
+                    pygame.time.delay(1000) 
+                    break
+        
         for bullet in self.bullets:
             bullet.update(self.bullets)
             for enemy in game.enemy_manager.enemies:

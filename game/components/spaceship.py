@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 import pygame
 from game.components.bullets.bullet import Bullet
 
-from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SOUND_TRANSPOSE, SOUND_PLAY
+from game.utils.constants import DEFAULT_TYPE, SPACESHIP, SCREEN_WIDTH, SOUND_TRANSPOSE, SOUND_PLAY
 
 class Spaceship(Sprite):
     
@@ -25,6 +25,9 @@ class Spaceship(Sprite):
         self.rect.x = self.X_POS
         self.rect.y = self.Y_POS
         self.type = 'player'
+        self.has_power_up = False
+        self.power_up_type = DEFAULT_TYPE
+        self.power_time_up = 0
 
     def update(self, user_input,game):
         if user_input[pygame.K_LEFT]:
@@ -75,3 +78,7 @@ class Spaceship(Sprite):
     def shoot(self, bullet_manager):
         bullet = Bullet(self)
         bullet_manager.add_bullet(bullet)
+        
+    def set_image(self,size = (SHIP_WIDTH,SHIP_HEIGHT), image = SPACESHIP):
+        self.image = image
+        self.image = pygame.transform.scale(self.image, size)
