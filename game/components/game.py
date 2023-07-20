@@ -31,6 +31,7 @@ class Game():
         self.death_score = 0
         self.score = 0
         self.time = 0
+        self.num_heart = 3
         self.menu = Menu('Press Any Key To Start...', self.screen)
 
     def execute(self):
@@ -50,7 +51,7 @@ class Game():
         while self.playing:
             self.events()
             self.update()
-            self.draw()
+            self.draw(self)
         
 
     def events(self):
@@ -67,7 +68,7 @@ class Game():
         self.time = pygame.time.get_ticks()//1000
         self.power_up_manager.update(self)
 
-    def draw(self):
+    def draw(self,game):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
@@ -76,7 +77,7 @@ class Game():
         self.bullet_manager.draw(self.screen)
         self.power_up_manager.draw(self.screen)
         self.draw_power_up_time()
-        self.heart.draw(self.screen)
+        self.heart.draw(self.screen,game)
         self.coins.draw(self.screen)
         self.menu.message_menu(self.screen,self.time,1020,20,20,'White')
         self.menu.message_menu(self.screen,self.score,28,77,20,'Blue')
@@ -146,6 +147,7 @@ class Game():
         self.enemy_manager.enemies.pop()
         self.death_score = 0
         self.score = 0
+        self.num_heart = 3
         self.time -=(pygame.time.get_ticks()//1000)
     
     def draw_power_up_time(self):
@@ -153,10 +155,10 @@ class Game():
             time_to_show = round((self.player.power_time_up - pygame.time.get_ticks()),2)
             
             if time_to_show >=0:
-                font = pygame.font.Font(FONT_STYLE, 30)
-                text = font.render(f'{self.player.power_up_type.capitalize()} is enable for {time_to_show} second',True,(255,255,255))
+                font = pygame.font.Font(FONT_STYLE, 20)
+                text = font.render(f'Time {self.player.power_up_type.capitalize()} {time_to_show}',True,(255,255,255))
                 text_rect = text.get_rect()                
-                self.screen.blit(text,(540,50))
+                self.screen.blit(text,(900,60))
             else:
                 self.player.has_power_up = False
                 self.player.power_up_type = DEFAULT_TYPE

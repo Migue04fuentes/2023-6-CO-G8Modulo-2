@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import SHIELD_TYPE, SHOT_SHIP
+from game.utils.constants import SHIELD_TYPE, SHOT_SHIP, SOUND_BANG, SOUND_GAME_OVER
 
 
 class bulletManager():
@@ -13,11 +13,15 @@ class bulletManager():
             bullet.update(self.enemy_bullets)
             if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
                 self.enemy_bullets.remove(bullet)
-                if game.player.power_up_type != SHIELD_TYPE:
-                    game.playing = False
+                if game.player.power_up_type != 'shield':
+                    game.num_heart -=1
+                    if game.num_heart == 0:
+                        game.playing = False
+                        pygame.time.delay(1000) 
+                        SOUND_GAME_OVER.play()
+                    SOUND_BANG.play()
                     game.death_score += 1
-                    pygame.time.delay(1000) 
-                    break
+                break
         
         for bullet in self.bullets:
             bullet.update(self.bullets)
@@ -36,11 +40,15 @@ class bulletManager():
         for bullet in self.bullets:
             bullet.draw(screen)
     
-    def add_bullet(self, bullet):
+    def add_bullet(self,bullet,game):
         if bullet.owner == 'enemy' and len(self.enemy_bullets)<1:
             self.enemy_bullets.append(bullet)
             
         if bullet.owner == 'player' and len(self.bullets)<3:
+            self.bullets.append(bullet)
+            SHOT_SHIP.set_volume(0.5)
+            SHOT_SHIP.play()
+        if bullet.owner == 'player' and game.power_up_type == 'bullets':
             self.bullets.append(bullet)
             SHOT_SHIP.set_volume(0.5)
             SHOT_SHIP.play()

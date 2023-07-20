@@ -4,6 +4,8 @@ from pygame.sprite import Sprite
 from game.utils.constants import SCREEN_HEIGHT, SCREEN_WIDTH
 
 class PowerUp(Sprite):
+    
+    
     def __init__(self,image,type):
         self.image = image
         self.type = type

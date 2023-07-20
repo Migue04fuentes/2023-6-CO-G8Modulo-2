@@ -66,7 +66,7 @@ class Enemy(Sprite):
         current_time = pygame.time.get_ticks()
         if self.shooting_time <= current_time:
             bullet = Bullet(self)
-            bullet_manager.add_bullet(bullet)
+            bullet_manager.add_bullet(bullet,self)
             self.shooting_time += random.randint(30,50)
         
     
