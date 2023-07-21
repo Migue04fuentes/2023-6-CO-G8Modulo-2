@@ -9,6 +9,7 @@ class bulletManager():
         self.enemy_bullets = []
     
     def update(self,game):
+        
         for bullet in self.enemy_bullets:
             bullet.update(self.enemy_bullets)
             if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':

@@ -49,7 +49,7 @@ class Game():
         
         pygame.mixer.music.load(SOUND_PLAY)
         pygame.mixer.music.play(-1,0.0)
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(0.3)
         while self.playing:
             self.events()
             self.update()
@@ -82,16 +82,7 @@ class Game():
         self.draw_power_up_time()
         self.heart.draw(self.screen,game)
 
-        # VALUES OF SCORE
-        self.menu.message_menu(self.screen,self.time,1020,20,20,'White')
-        self.menu.message_menu(self.screen,self.score,28,77,20,'Blue')
-        self.menu.message_menu(self.screen,self.coins,25,50,20,'White')
         
-        # ICON OF MENÚ PLAYING
-        self.menu.icons_menu(self.screen,ICON_PLAY,1045,90,35,35)
-        self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
-        self.menu.icons_menu(self.screen,ICON_RESET,1045,170,35,35)
-        self.menu.icons_menu(self.screen,ICON_EXIT,1045,210,35,35)
 
 
 
@@ -114,12 +105,23 @@ class Game():
         icon_coin = pygame.transform.scale(COINS, (20,25))
         self.screen.blit(icon_coin,(2,45))
         
+        # VALUES OF SCORE
+        self.menu.message_menu(self.screen,self.time,1020,20,20,'White')
+        self.menu.message_menu(self.screen,self.score,28,77,20,'Blue')
+        self.menu.message_menu(self.screen,self.coins,25,50,20,'White')
+        
+        # ICON OF MENÚ PLAYING
+        self.menu.icons_menu(self.screen,ICON_PLAY,1045,90,35,35)
+        self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
+        self.menu.icons_menu(self.screen,ICON_RESET,1045,170,35,35)
+        self.menu.icons_menu(self.screen,ICON_EXIT,1045,210,35,35)
+        
     def show_menu(self):
         half_screen_height = SCREEN_HEIGHT // 2
         half_scree_width = SCREEN_WIDTH // 2
         self.menu.reset_screen_color(self.screen)
 
-        if self.num_heart <= 0:
+        if self.num_heart == 0:
             image = pygame.transform.scale(BG_END, (SCREEN_WIDTH, SCREEN_HEIGHT))
             self.screen.blit(image,(0,0))
             self.menu.update_message("Statistics:")
@@ -173,7 +175,7 @@ class Game():
         
     def mute_music(self):
         if pygame.mixer.music.get_volume() ==0.0:
-            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.set_volume(0.3)
             self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
         else:
             pygame.mixer.music.set_volume(0.0)
@@ -193,12 +195,12 @@ class Game():
                 self.run()
         
     def reset_game(self):
-        self.enemy_manager.enemies.pop()
-        self.death_score = 0
-        self.score = 0
-        self.coins = 0
-        self.num_heart = 3
-        self.time -=(pygame.time.get_ticks()//1000)
+            self.enemy_manager.enemies = []
+            self.death_score = 0
+            self.score = 0
+            self.coins = 0
+            self.num_heart = 3
+            self.time -=(pygame.time.get_ticks()//1000)
     
     def draw_power_up_time(self):
         if self.player.has_power_up:

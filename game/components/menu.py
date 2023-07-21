@@ -36,8 +36,8 @@ class Menu():
             elif event.type == pygame.KEYDOWN and game.score==0 and game.death_score == 0:
                 game.run()
     
+    # Background start game
     def reset_screen_color(self,screen):
-        # screen.fill((255,255,255))
         image = pygame.transform.scale(BG_START, (SCREEN_WIDTH, SCREEN_HEIGHT))
         screen.blit(image,(0,0))
     
