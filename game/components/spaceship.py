@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 import pygame
 from game.components.bullets.bullet import Bullet
 
-from game.utils.constants import DEFAULT_TYPE, SPACESHIP, SCREEN_WIDTH, SOUND_TRANSPOSE, SOUND_PLAY
+from game.utils.constants import DEFAULT_TYPE, ICON_PLAY, IMG_PAUSE, SCREEN_HEIGHT, SPACESHIP, SCREEN_WIDTH, SOUND_TRANSPOSE, SOUND_PLAY
 
 class Spaceship(Sprite):
     
@@ -29,7 +29,7 @@ class Spaceship(Sprite):
         self.power_up_type = DEFAULT_TYPE
         self.power_time_up = 0
 
-    def update(self, user_input,game):
+    def update(self, user_input,game,screen):
         if user_input[pygame.K_LEFT]:
             self.move_left()
         if user_input[pygame.K_RIGHT]:
@@ -51,7 +51,7 @@ class Spaceship(Sprite):
             self.shoot(game.bullet_manager)
             
         if user_input[pygame.K_p]:
-            game.paused()
+            self.paused(game,screen)
             
         if user_input[pygame.K_r]:
             game.playing = False
@@ -60,9 +60,8 @@ class Spaceship(Sprite):
             game.run
             
         if user_input[pygame.K_BACKSPACE] or user_input[pygame.K_ESCAPE]:
-            pygame.display.quit()
-            pygame.quit()
-                
+            game.running = False
+            game.playing = False
             
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -96,3 +95,8 @@ class Spaceship(Sprite):
     def set_image(self,size = (SHIP_WIDTH,SHIP_HEIGHT), image = SPACESHIP):
         self.image = image
         self.image = pygame.transform.scale(self.image, size)
+        
+    def paused(self,game,screen):
+        print('pasdadsafs')
+        bg_image = pygame.transform.scale(ICON_PLAY, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        game.menu.icons_menu(screen,bg_image,1045,90,35,35)

@@ -4,7 +4,7 @@ from game.components.Coins.coin_manager import CoinManager
 from game.components.menu import Menu
 from game.components.power_ups.power_up_manager import PowerUpManager
 
-from game.utils.constants import BG, BG_END, BUY, COINS, FONT_STYLE, HEART, ICON, ICON_EXIT, ICON_MUSIC, ICON_MUSIC_MUTE, ICON_PLAY, ICON_RESET, IMG_PAUSE, RESET, SCORE, SCORE_DEATH, SCORE_TIME, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, SOUND_PLAY
+from game.utils.constants import BG, BG_END, BUY, COINS, FONT_STYLE, HEART, ICON, ICON_EXIT, ICON_MUSIC, ICON_MUSIC_MUTE, ICON_PAUSE, ICON_PLAY, ICON_RESET, IMG_PAUSE, RESET, SCORE, SCORE_DEATH, SCORE_TIME, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, SOUND_PLAY
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.heart import Heart
@@ -49,11 +49,12 @@ class Game():
         
         pygame.mixer.music.load(SOUND_PLAY)
         pygame.mixer.music.play(-1,0.0)
-        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.set_volume(0.1)
         while self.playing:
             self.events()
             self.update()
             self.draw(self)
+        
 
     def events(self):
         for event in pygame.event.get():
@@ -63,16 +64,17 @@ class Game():
 
     def update(self):
         user_input = pygame.key.get_pressed()
-        self.player.update(user_input,self)
+        self.player.update(user_input,self,self.screen)
         self.enemy_manager.update(self)
         self.bullet_manager.update(self)
         self.coin_manager.update(self)
         self.power_up_manager.update(self)
-        self.time = pygame.time.get_ticks()//1000
+        
+        
 
     def draw(self,game):
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
+        # self.screen.fill((255, 255, 255))
         self.draw_background()
         self.player.draw(self.screen)
         self.enemy_manager.draw(self.screen)
@@ -81,10 +83,6 @@ class Game():
         self.coin_manager.draw(self.screen)
         self.draw_power_up_time()
         self.heart.draw(self.screen,game)
-
-        
-
-
 
         pygame.display.flip()
 
@@ -111,7 +109,7 @@ class Game():
         self.menu.message_menu(self.screen,self.coins,25,50,20,'White')
         
         # ICON OF MENÚ PLAYING
-        self.menu.icons_menu(self.screen,ICON_PLAY,1045,90,35,35)
+        self.menu.icons_menu(self.screen,ICON_PAUSE,1045,90,35,35)
         self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
         self.menu.icons_menu(self.screen,ICON_RESET,1045,170,35,35)
         self.menu.icons_menu(self.screen,ICON_EXIT,1045,210,35,35)
@@ -167,15 +165,12 @@ class Game():
             self.menu.message_menu(screen,num_heart,525,403,32,'Black')
             click_buy = self.menu.icons_menu(screen,BUY,550,400,80,40)
             return [click_buy,num_heart]
+    
         
-    def paused(self):
-        print('pasdadsafs')
-        image = pygame.transform.scale(IMG_PAUSE, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.screen.blit(image,(0,0))
-        
+    # Mute and Sound
     def mute_music(self):
         if pygame.mixer.music.get_volume() ==0.0:
-            pygame.mixer.music.set_volume(0.3)
+            pygame.mixer.music.set_volume(0.1)
             self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
         else:
             pygame.mixer.music.set_volume(0.0)
@@ -188,11 +183,12 @@ class Game():
                 self.run()
                 
     def click_buy(self,img_buy):
-        mouse = pygame.mouse.get_pos()
-        if img_buy[0].collidepoint(mouse) and pygame.mouse.get_pressed()[0] == 1:
-                self.num_heart = img_buy[1]
-                self.coins -= (img_buy[1]*5)
-                self.run()
+        if self.coins >= 5:
+            mouse = pygame.mouse.get_pos()
+            if img_buy[0].collidepoint(mouse) and pygame.mouse.get_pressed()[0] == 1:
+                    self.num_heart = img_buy[1]
+                    self.coins -= (img_buy[1]*5)
+                    self.run()
         
     def reset_game(self):
             self.enemy_manager.enemies = []
@@ -200,7 +196,6 @@ class Game():
             self.score = 0
             self.coins = 0
             self.num_heart = 3
-            self.time -=(pygame.time.get_ticks()//1000)
     
     def draw_power_up_time(self):
         if self.player.has_power_up:
