@@ -23,7 +23,7 @@ class EnemyManager:
             move_x_for = [50,120]
             enemy = Enemy(enemy_type,x_speed,y_speed,move_x_for)
         if game.score <= 10:
-            if len(self.enemies)<1:
+            if len(self.enemies)<3:
                 enemy = Enemy()
                 self.enemies.append(enemy)
         elif game.score <=20:

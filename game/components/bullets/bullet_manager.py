@@ -1,5 +1,6 @@
 import pygame
 
+
 from game.utils.constants import SHIELD_TYPE, SHOT_SHIP, SOUND_BANG, SOUND_GAME_OVER
 
 
@@ -7,7 +8,6 @@ class bulletManager():
     def __init__(self):
         self.bullets = []
         self.enemy_bullets = []
-    
     def update(self,game):
         
         for bullet in self.enemy_bullets:
@@ -44,12 +44,14 @@ class bulletManager():
     def add_bullet(self,bullet,game):
         if bullet.owner == 'enemy' and len(self.enemy_bullets)<2:
             self.enemy_bullets.append(bullet)
-            
-        if bullet.owner == 'player' and len(self.bullets)<3:
-            self.bullets.append(bullet)
-            SHOT_SHIP.set_volume(0.5)
-            SHOT_SHIP.play()
+           
         if bullet.owner == 'player' and game.power_up_type == 'bullets':
             self.bullets.append(bullet)
             SHOT_SHIP.set_volume(0.5)
+            SHOT_SHIP.play() 
+        elif bullet.owner == 'player' and len(self.bullets)<3:
+            self.bullets.append(bullet)
+            SHOT_SHIP.set_volume(0.5)
             SHOT_SHIP.play()
+            
+        
