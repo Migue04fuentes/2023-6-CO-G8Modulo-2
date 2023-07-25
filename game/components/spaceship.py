@@ -48,7 +48,7 @@ class Spaceship(Sprite):
             #     pygame.mixer.music.set_volume(0.0)
         
         if user_input[pygame.K_x]:
-            self.shoot(game.bullet_manager,game)
+            self.shoot(game)
             
         if user_input[pygame.K_p]:
             self.paused(game,screen)
@@ -88,9 +88,9 @@ class Spaceship(Sprite):
         if self.rect.y != self.LIMIT_DOWN:
             self.rect.y += self.SHIP_SPEED
             
-    def shoot(self, bullet_manager,game):
+    def shoot(self, game):
         bullet = Bullet(self)
-        bullet_manager.add_bullet(bullet,self,game)
+        game.bullet_manager.add_bullet(bullet,self,game)
         
     def set_image(self,size = (SHIP_WIDTH,SHIP_HEIGHT), image = SPACESHIP):
         self.image = image
