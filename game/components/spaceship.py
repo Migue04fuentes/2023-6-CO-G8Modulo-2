@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 import pygame
 from game.components.bullets.bullet import Bullet
 
-from game.utils.constants import DEFAULT_TYPE, ICON_PLAY, IMG_PAUSE, SCREEN_HEIGHT, SPACESHIP, SCREEN_WIDTH, SOUND_TRANSPOSE, SOUND_PLAY
+from game.utils.constants import DEFAULT_TYPE, ICON_MUSIC, ICON_MUSIC_MUTE, ICON_PLAY, IMG_PAUSE, SCREEN_HEIGHT, SPACESHIP, SCREEN_WIDTH, SOUND_TRANSPOSE, SOUND_PLAY
 
 class Spaceship(Sprite):
     
@@ -41,7 +41,7 @@ class Spaceship(Sprite):
         
         # Volume music background
         if user_input[pygame.K_m]:
-            game.mute_music()
+            self.mute_music(game,screen)
             # if pygame.mixer.music.get_volume() ==0.0:
             #     pygame.mixer.music.set_volume(0.5)
             # else:
@@ -97,6 +97,22 @@ class Spaceship(Sprite):
         self.image = pygame.transform.scale(self.image, size)
         
     def paused(self,game,screen):
-        print('pasdadsafs')
-        bg_image = pygame.transform.scale(ICON_PLAY, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        game.menu.icons_menu(screen,bg_image,1045,90,35,35)
+        if game.pause:
+            game.pause = False
+            # game.playing = True
+        else: 
+            game.pause = True
+            # game.playing = False
+            image = pygame.transform.scale(IMG_PAUSE, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            screen.blit(image,(0,0))
+        
+    # Mute and Sound
+    def mute_music(self,game,screen):
+        if pygame.mixer.music.get_volume() == 0.0:
+            pygame.mixer.music.set_volume(0.1)
+            game.menu.icons_menu(screen,ICON_MUSIC,900,130,35,35)
+            print('No Mute')
+        else:
+            pygame.mixer.music.set_volume(0.0)
+            game.menu.icons_menu(screen,ICON_MUSIC_MUTE,1045,130,35,35)
+            print('Mute')

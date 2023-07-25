@@ -32,11 +32,12 @@ class Game():
         self.time = 0
         self.num_heart = 3
         self.coins = 5
-        self.pause = False
+        self.pause = True
         self.menu = Menu('Press Any Key To Start...', self.screen)
 
     def execute(self):
         self.running = True
+        self.pause = False
         while self.running:
             if not self.playing:
                 self.show_menu()
@@ -69,7 +70,7 @@ class Game():
         self.bullet_manager.update(self)
         self.coin_manager.update(self)
         self.power_up_manager.update(self)
-        
+        pygame.display.flip()
         
 
     def draw(self,game):
@@ -83,8 +84,8 @@ class Game():
         self.coin_manager.draw(self.screen)
         self.draw_power_up_time()
         self.heart.draw(self.screen,game)
-
-        pygame.display.flip()
+        self.icon_music_gb() #Ícon start game
+        self.icon_play_gb() #Icon play start game
 
     def draw_background(self):
         image = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -109,16 +110,17 @@ class Game():
         self.menu.message_menu(self.screen,self.coins,25,50,20,'White')
         
         # ICON OF MENÚ PLAYING
-        self.menu.icons_menu(self.screen,ICON_PAUSE,1045,90,35,35)
-        self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
+ 
         self.menu.icons_menu(self.screen,ICON_RESET,1045,170,35,35)
         self.menu.icons_menu(self.screen,ICON_EXIT,1045,210,35,35)
         
     def show_menu(self):
         half_screen_height = SCREEN_HEIGHT // 2
         half_scree_width = SCREEN_WIDTH // 2
+       
         self.menu.reset_screen_color(self.screen)
 
+            
         if self.num_heart == 0:
             image = pygame.transform.scale(BG_END, (SCREEN_WIDTH, SCREEN_HEIGHT))
             self.screen.blit(image,(0,0))
@@ -133,6 +135,7 @@ class Game():
             self.click_buy(click_buy)
             self.playing = False
             pygame.mixer.music.stop()
+        
         self.menu.draw(self.screen)
         self.menu.update(self)
         
@@ -167,14 +170,8 @@ class Game():
             return [click_buy,num_heart]
     
         
-    # Mute and Sound
-    def mute_music(self):
-        if pygame.mixer.music.get_volume() ==0.0:
-            pygame.mixer.music.set_volume(0.1)
-            self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
-        else:
-            pygame.mixer.music.set_volume(0.0)
-            self.menu.icons_menu(self.screen,ICON_MUSIC_MUTE,1045,130,35,35)
+    
+    
     
     def click_reset(self,img_reset):
         mouse = pygame.mouse.get_pos()
@@ -210,3 +207,17 @@ class Game():
                 self.player.has_power_up = False
                 self.player.power_up_type = DEFAULT_TYPE
                 self.player.set_image()
+                
+    #Music start
+    def icon_music_gb(self):
+        if pygame.mixer.music.get_volume() != 0.0:
+            self.menu.icons_menu(self.screen,ICON_MUSIC,1045,130,35,35)
+        else:
+            self.menu.icons_menu(self.screen,ICON_MUSIC_MUTE,1045,130,35,35)
+    
+    def icon_play_gb(self):
+        if self.pause:
+            self.menu.icons_menu(self.screen,ICON_PLAY,1045,90,35,35)
+        else: 
+            self.menu.icons_menu(self.screen,ICON_PAUSE,1045,90,35,35)
+           
